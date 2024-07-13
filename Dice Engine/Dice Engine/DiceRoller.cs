@@ -9,8 +9,8 @@ namespace Dice_Engine.Dice_Engine
     /// <summary>
     /// Implementation of dice-rolling for Vorpal. This interprets and executes commands according to the grammar
     /// defined in the README of this repository.
-    /// </summary>
-    public static class Dice
+    /// </summary> 
+    public static class DiceRoller
     {
         static Random Rng = new Random();
 
