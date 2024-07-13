@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Dice_Engine.Dice_Engine
 {
+    /// <summary>
+    /// Implementation of dice-rolling for Vorpal. This interprets and executes commands according to the grammar
+    /// defined in the README of this repository.
+    /// </summary>
     public static class Dice
     {
         static Random Rng = new Random();
-
 
         /// <summary>
         /// Computes the result of basic rolls such a 8d6 and d20. This does not store and return the individual dice rolls 
@@ -18,7 +21,6 @@ namespace Dice_Engine.Dice_Engine
         /// <param name="sides">The number of sides of each die. Also the maximum number of an individual die roll. </param>
         /// <returns>The total of rolling n s-sided die. Does not store each roll discretely. </returns>
         private static int rollBasic(int num = 1, int sides = 4) => Rng.Next(num, sides * num + 1);
-
 
         /// <summary>
         /// Computes the result of basic dice rolls such as 8d6 and d20. This stores and returns the result of individual dice rolls. 
