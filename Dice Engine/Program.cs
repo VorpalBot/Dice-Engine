@@ -13,7 +13,9 @@ namespace Dice_Engine
     {
         static void Main(string[] args)
         {
-
+            Console.Write("Enter: ");
+            string choice = Console.ReadLine();
+            Console.ReadLine();
         }
     }
 }

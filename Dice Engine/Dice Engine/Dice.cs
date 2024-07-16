@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Dice_Engine.Dice_Engine
@@ -10,14 +11,23 @@ namespace Dice_Engine.Dice_Engine
     {
         static Random Rng = new Random();
 
+        public static int[] roll(string command)
+        {
+            // Getting all modifiers applied to the roll such as advantage, bless, etc.
+            Match rollEffects = Regex.Match(command, "{(.*?)}");
+            GroupCollection effects = rollEffects.Groups; 
+
+        }
 
         /// <summary>
-        /// Computes the result of basic rolls such a 8d6 and d20. This does not store and return the individual dice rolls 
+        /// Computes the result of basic rolls such a 8d6 and d20. This does not store and return the individual dice rolls. 
+        /// This has been written in this form because the minimum number is simply the number of dice and the max is the multiple of the 
+        /// number of dice and their sides, meaning only one random number needs to be generated.
         /// </summary>
         /// <param name="num">The number of dice being rolled. </param>
         /// <param name="sides">The number of sides of each die. Also the maximum number of an individual die roll. </param>
         /// <returns>The total of rolling n s-sided die. Does not store each roll discretely. </returns>
-        private static int rollBasic(int num = 1, int sides = 4) => Rng.Next(num, sides * num + 1);
+        private static int[] rollBasic(int num = 1, int sides = 4) => new int[] { Rng.Next(num, sides * num + 1) };
 
 
         /// <summary>
