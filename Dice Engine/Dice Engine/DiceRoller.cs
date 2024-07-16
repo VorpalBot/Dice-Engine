@@ -33,25 +33,14 @@ namespace Dice_Engine.Dice_Engine
         /// <returns>The total of rolling n s-sided die. Does not store each roll discretely. </returns>
         private static int[] rollBasic(int num = 1, int sides = 4) => new int[] { Rng.Next(num, sides * num + 1) };
 
-            return Rng.Next(num, sides * num + 1); 
-        }
-
         /// <summary>
         /// Computes the result of basic dice rolls such as 8d6 and d20. This stores and returns the result of individual dice rolls. 
         /// </summary>
         /// <param name="num">The number of dice being rolled. </param>
         /// <param name="sides">The number of sides of each die. Also the maximum number of an individual die roll. </param>
         /// <returns>An array containing the result of the dice rolls, these can be summed to find the total. </returns>
-        private static int[] IndividualDiceRolls(int num = 1, int sides = 4)
+        private static int[] roll(int num = 1, int sides = 4)
         {
-            if (num < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(num), num, "Number of dice being rolled must be at least 1. "); 
-            }
-            if (sides < 2)
-            {
-                throw new ArgumentOutOfRangeException(nameof(sides), sides, "Must roll dice with at least two sides. "); 
-            }
             int[] rolls = new int[num];
             for (int i = 0; i < num; i++)
             {
