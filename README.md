@@ -2,9 +2,9 @@
 A simple C# console application for interacting with the Vorpal dice engine. This engine is responsible for  handling all of the dice rolls within the Vorpal discord bot. 
 
 The grammar of the valid dice commands is given by the EBNF below. Some valid dice rolls include: 
-- `1d20`, which rolls a 20-sided die once.
-- `3d6+5`, which rolls a 6-sided die 3 three times, sums each roll and adds 5 to get the final total.
-- `3d6+5{adv}`, which does the previous dice roll but at advantage. 
+- `"1d20"`, which rolls a 20-sided die once.
+- `"3d6+5"`, which rolls a 6-sided die 3 three times, sums each roll and adds 5 to get the final total.
+- `"3d6+5{adv}"`, which does the previous dice roll but at advantage. 
 ```ebnf
 (* The structure in which a dice command will be supplied to the engine *)
 command = standardRoll, ["{", effect, "}"]; 
