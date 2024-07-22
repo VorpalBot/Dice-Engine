@@ -15,6 +15,7 @@ namespace Dice_Engine
         {
             Console.Write("Enter: ");
             string choice = Console.ReadLine();
+            DiceRoller.roll(choice);
             Console.ReadLine();
         }
     }
