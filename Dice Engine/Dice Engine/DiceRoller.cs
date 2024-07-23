@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,9 +20,11 @@ namespace Dice_Engine.Dice_Engine
         {
             // Getting all modifiers applied to the roll such as advantage, bless, etc.
             Match rollEffects = Regex.Match(command, "{(.*?)}");
-            string nonTerminalCommand = computeTerminalRolls(command); 
-            
-            //Construct AST with the remaining string. 
+            string nonTerminalCommand = computeTerminalRolls(command);
+            command = command.Replace(rollEffects.Value, "");
+            //Construct AST with the remaining string. This is string representation. 
+            string ast = findASTOfRoll(command); 
+            //Convert string representation into a tree structure. 
 
 
 
@@ -45,7 +48,7 @@ namespace Dice_Engine.Dice_Engine
             // If there are terminal multi rolls, compute their result and replace the roll in the string. 
             if (multiRolls.Count != 0)
             {
-                foreach (Mastch m in multiRolls)
+                foreach (Match m in multiRolls)
                 {
                     multiRoll = processMultiRolls(m.Value);
                     rollResult = rollBasic(multiRoll.Item1, multiRoll.Item2);
@@ -107,6 +110,49 @@ namespace Dice_Engine.Dice_Engine
             return rolls;
         }
 
+        private static string findASTOfRoll(string diceRoll)
+        {
+            Stack<char> operatorStack = new Stack<char>();
+            string ast = "";
+            int operatorPrecedence; 
+            char[] operators = new char[3] { '-', '+', 'd' };
 
+            foreach(char token in diceRoll)
+            {
+                if (char.IsNumber(token))
+                {
+                    ast += token;
+                }
+                else if (operators.Contains(token))
+                {
+                    operatorPrecedence = Array.IndexOf(operators, token);
+                    while (operatorStack.Count > 0 && operatorStack.Peek() != '(' && Array.IndexOf(operators, operatorStack.Peek()) > operatorPrecedence)
+                    {
+                        ast += operatorStack.Pop();
+                    }
+                    operatorStack.Push(token);
+                }
+                else if (token == '(')
+                {
+                    operatorStack.Push(token);
+                }
+                else if (token == ')')
+                {
+                    while (operatorStack.Peek() != '(')
+                    {
+                        Debug.Assert(operatorStack.Count > 0, "The stack is empty. ");
+                        ast += operatorStack.Pop();
+                    }
+                    Debug.Assert(operatorStack.Peek() == '(', "The top item is a (");
+                    operatorStack.Pop(); 
+                }
+            }
+            while (operatorStack.Count > 0) ;
+            {
+                Debug.Assert(operatorStack.Peek() != '(', "The top item is a (");
+                ast += operatorStack.Pop();
+            }
+            return ast; 
+        }
     }
 }
